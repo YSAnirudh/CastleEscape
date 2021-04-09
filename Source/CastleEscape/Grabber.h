@@ -1,0 +1,43 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "Components/ActorComponent.h"
+#include "Grabber.generated.h"
+
+
+UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+class CASTLEESCAPE_API UGrabber : public UActorComponent
+{
+	GENERATED_BODY()
+
+public:	
+	// Sets default values for this component's properties
+	UGrabber();
+
+public:
+	void LineTrace();
+	FHitResult GetFirstPhysicsBodyInReach();
+	FVector GetPlayerReach();
+	FVector GetPlayerViewpointLocation();
+	void PhysicsHandleCheck();
+	void SetupInputComponent();
+	void GrabKeyPressed();
+	void GrabKeyReleased();
+protected:
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
+public:	
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	APlayerController* PlayerController = NULL;
+	FVector LineTraceEnd;
+	class UPhysicsHandleComponent* PhysicsHandle = NULL;
+	class UInputComponent* InputComponent = NULL;
+	UPROPERTY(EditAnywhere)
+		float Reach = 200.f;
+
+};
